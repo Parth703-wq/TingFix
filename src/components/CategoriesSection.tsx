@@ -8,82 +8,93 @@ const CategoriesSection = () => {
   const categories = [
     {
       id: 'repairs',
-      title: 'Home Repairs & Maintenance',
-      description: 'Plumbing, electrical, carpentry, and general maintenance services',
+      title: 'Home Repairs',
+      description: 'Expert plumbing, electrical, and carpentry services',
       icon: Wrench,
-      color: 'from-blue-600 to-blue-700',
+      color: 'from-purple-500 to-purple-600',
+      bgColor: 'bg-purple-50',
       link: '/services?category=repairs'
     },
     {
       id: 'appliances',
       title: 'Appliance Services',
-      description: 'Installation, repair, and maintenance of home appliances',
+      description: 'Installation and repair of home appliances',
       icon: Zap,
-      color: 'from-green-600 to-green-700',
+      color: 'from-teal-500 to-teal-600',
+      bgColor: 'bg-teal-50',
       link: '/services?category=appliances'
     },
     {
       id: 'cleaning',
       title: 'Professional Cleaning',
-      description: 'Deep cleaning, regular maintenance, and specialized cleaning services',
+      description: 'Deep cleaning and maintenance services',
       icon: Brush,
-      color: 'from-purple-600 to-purple-700',
+      color: 'from-amber-500 to-amber-600',
+      bgColor: 'bg-amber-50',
       link: '/services?category=cleaning'
     },
     {
       id: 'installation',
       title: 'Installation Services',
-      description: 'Professional installation of fixtures, appliances, and equipment',
+      description: 'Professional installation of fixtures and equipment',
       icon: Settings,
-      color: 'from-orange-600 to-orange-700',
+      color: 'from-rose-500 to-rose-600',
+      bgColor: 'bg-rose-50',
       link: '/services?category=installation'
     },
     {
       id: 'renovation',
-      title: 'Renovation & Remodeling',
-      description: 'Home improvement, renovation, and remodeling projects',
+      title: 'Renovation',
+      description: 'Home improvement and remodeling projects',
       icon: Hammer,
-      color: 'from-red-600 to-red-700',
+      color: 'from-emerald-500 to-emerald-600',
+      bgColor: 'bg-emerald-50',
       link: '/services?category=renovation'
     },
     {
       id: 'tech',
-      title: 'Tech Support & Setup',
-      description: 'Technology installation, setup, and troubleshooting services',
+      title: 'Tech Support',
+      description: 'Technology installation and troubleshooting',
       icon: Cpu,
-      color: 'from-indigo-600 to-indigo-700',
+      color: 'from-indigo-500 to-indigo-600',
+      bgColor: 'bg-indigo-50',
       link: '/services?category=tech'
     }
   ];
 
   return (
-    <section className="py-20 bg-gray-50">
+    <section className="py-24 bg-gradient-to-b from-white to-purple-50">
       <div className="container mx-auto px-4">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold text-gray-900 mb-4">Our Professional Services</h2>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">Expert technicians delivering quality service for all your home needs</p>
+        <div className="text-center mb-16 animate-fade-in">
+          <h2 className="text-5xl font-bold mb-6">
+            <span className="bg-gradient-to-r from-primary-600 to-secondary-600 bg-clip-text text-transparent">
+              Our Services
+            </span>
+          </h2>
+          <p className="text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
+            Professional solutions for every home need, delivered by certified experts
+          </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {categories.map((category) => {
+          {categories.map((category, index) => {
             const IconComponent = category.icon;
             return (
               <Link key={category.id} to={category.link} className="group">
-                <Card className="professional-card group-hover:shadow-xl transition-all duration-300 group-hover:-translate-y-2 border-0 overflow-hidden h-full">
+                <Card className="service-card h-full border-0 overflow-hidden animate-slide-up" style={{animationDelay: `${index * 0.1}s`}}>
                   <CardContent className="p-0">
-                    <div className={`h-32 bg-gradient-to-r ${category.color} flex items-center justify-center relative overflow-hidden`}>
-                      <div className="absolute inset-0 bg-black/10"></div>
-                      <IconComponent className="w-12 h-12 text-white relative z-10" />
+                    <div className={`h-24 bg-gradient-to-r ${category.color} flex items-center justify-center relative`}>
+                      <IconComponent className="w-10 h-10 text-white" />
                     </div>
                     <div className="p-8">
-                      <h3 className="text-xl font-semibold text-gray-900 mb-3 group-hover:text-primary-600 transition-colors">
+                      <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-primary-600 transition-colors">
                         {category.title}
                       </h3>
-                      <p className="text-gray-600 leading-relaxed">
+                      <p className="text-gray-600 leading-relaxed mb-4">
                         {category.description}
                       </p>
-                      <div className="mt-4 text-primary-600 font-medium">
-                        Learn More →
+                      <div className="flex items-center text-primary-600 font-semibold group-hover:translate-x-2 transition-transform duration-300">
+                        Explore Service →
                       </div>
                     </div>
                   </CardContent>
