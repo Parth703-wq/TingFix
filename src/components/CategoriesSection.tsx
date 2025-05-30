@@ -2,7 +2,7 @@
 import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Link } from 'react-router-dom';
-import { Sparkles, Broom, Wrench, Activity, Zap, Palette } from 'lucide-react';
+import { Sparkles, Brush, Wrench, Activity, Zap, Palette } from 'lucide-react';
 
 const CategoriesSection = () => {
   const categories = [
@@ -18,7 +18,7 @@ const CategoriesSection = () => {
       id: 'cleaning',
       title: 'Cleaning & Pest Control',
       description: 'Deep cleaning, regular maintenance, and pest control services',
-      icon: Broom,
+      icon: Brush,
       color: 'from-blue-500 to-cyan-500',
       link: '/services?category=cleaning'
     },
