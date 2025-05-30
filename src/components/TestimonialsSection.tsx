@@ -2,39 +2,42 @@
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ChevronLeft, ChevronRight, Star } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Star, Quote } from 'lucide-react';
 
 const TestimonialsSection = () => {
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
 
   const testimonials = [
     {
-      name: 'Sarah Johnson',
-      service: 'Deep Home Cleaning',
+      name: 'Rajesh Kumar',
+      service: 'AC Installation & Repair',
       rating: 5,
-      comment: 'Absolutely fantastic service! The team was professional, thorough, and my house has never been cleaner. Will definitely book again.',
-      image: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=100&h=100&fit=crop&crop=face'
-    },
-    {
-      name: 'Michael Chen',
-      service: 'AC Repair',
-      rating: 5,
-      comment: 'Quick response time and expert service. The technician was knowledgeable and fixed my AC in no time. Highly recommended!',
-      image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face'
+      comment: 'Excellent service! The technician was professional, punctual, and completed the AC installation perfectly. Highly recommend Ting Fix for any home appliance needs.',
+      image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face',
+      location: 'Mumbai'
     },
     {
       name: 'Priya Sharma',
-      service: 'Beauty & Spa',
+      service: 'Electrical Repairs',
       rating: 5,
-      comment: 'Love the convenience of getting spa treatments at home. The therapist was skilled and the experience was relaxing.',
-      image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop&crop=face'
+      comment: 'Quick response time and expert service. The electrician identified and fixed multiple issues efficiently. Great experience with transparent pricing.',
+      image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop&crop=face',
+      location: 'Delhi'
+    },
+    {
+      name: 'Amit Patel',
+      service: 'Plumbing Services',
+      rating: 5,
+      comment: 'Professional and reliable service. Fixed our kitchen plumbing issues quickly and provided helpful maintenance tips. Will definitely use Ting Fix again.',
+      image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face',
+      location: 'Bangalore'
     }
   ];
 
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentTestimonial((prev) => (prev + 1) % testimonials.length);
-    }, 5000);
+    }, 6000);
     return () => clearInterval(timer);
   }, []);
 
@@ -47,30 +50,34 @@ const TestimonialsSection = () => {
   };
 
   return (
-    <section className="py-16 bg-gradient-to-br from-primary-50 to-secondary-50">
+    <section className="py-20 bg-gradient-to-br from-primary-50 to-secondary-50">
       <div className="container mx-auto px-4">
-        <div className="text-center mb-12">
+        <div className="text-center mb-16">
           <h2 className="text-4xl font-bold text-gray-900 mb-4">What Our Customers Say</h2>
-          <p className="text-xl text-gray-600">Real reviews from satisfied customers</p>
+          <p className="text-xl text-gray-600">Real reviews from satisfied customers across India</p>
         </div>
 
         <div className="relative max-w-4xl mx-auto">
-          <Card className="border-0 shadow-2xl">
-            <CardContent className="p-8 md:p-12">
+          <Card className="professional-card border-0 shadow-2xl overflow-hidden">
+            <CardContent className="p-12">
               <div className="text-center">
+                <div className="flex justify-center mb-6">
+                  <Quote className="w-12 h-12 text-primary-300" />
+                </div>
+                
                 <img
                   src={testimonials[currentTestimonial].image}
                   alt={testimonials[currentTestimonial].name}
-                  className="w-20 h-20 rounded-full mx-auto mb-6 object-cover"
+                  className="w-24 h-24 rounded-full mx-auto mb-6 object-cover border-4 border-primary-100"
                 />
                 
-                <div className="flex justify-center mb-4">
+                <div className="flex justify-center mb-6">
                   {[...Array(testimonials[currentTestimonial].rating)].map((_, i) => (
                     <Star key={i} className="w-6 h-6 text-yellow-400 fill-current" />
                   ))}
                 </div>
 
-                <blockquote className="text-xl text-gray-700 mb-6 italic leading-relaxed">
+                <blockquote className="text-xl text-gray-700 mb-8 italic leading-relaxed max-w-2xl mx-auto">
                   "{testimonials[currentTestimonial].comment}"
                 </blockquote>
 
@@ -78,7 +85,8 @@ const TestimonialsSection = () => {
                   <h4 className="text-lg font-semibold text-gray-900">
                     {testimonials[currentTestimonial].name}
                   </h4>
-                  <p className="text-gray-600">{testimonials[currentTestimonial].service}</p>
+                  <p className="text-primary-600 font-medium">{testimonials[currentTestimonial].service}</p>
+                  <p className="text-gray-500 text-sm">{testimonials[currentTestimonial].location}</p>
                 </div>
               </div>
             </CardContent>
@@ -89,27 +97,27 @@ const TestimonialsSection = () => {
             variant="outline"
             size="icon"
             onClick={prevTestimonial}
-            className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white shadow-lg hover:shadow-xl"
+            className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white shadow-xl hover:shadow-2xl border-0 w-12 h-12"
           >
-            <ChevronLeft className="w-4 h-4" />
+            <ChevronLeft className="w-5 h-5" />
           </Button>
           <Button
             variant="outline"
             size="icon"
             onClick={nextTestimonial}
-            className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white shadow-lg hover:shadow-xl"
+            className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white shadow-xl hover:shadow-2xl border-0 w-12 h-12"
           >
-            <ChevronRight className="w-4 h-4" />
+            <ChevronRight className="w-5 h-5" />
           </Button>
 
           {/* Indicators */}
-          <div className="flex justify-center mt-6 space-x-2">
+          <div className="flex justify-center mt-8 space-x-3">
             {testimonials.map((_, index) => (
               <button
                 key={index}
                 onClick={() => setCurrentTestimonial(index)}
                 className={`w-3 h-3 rounded-full transition-colors ${
-                  index === currentTestimonial ? 'bg-primary-500' : 'bg-gray-300'
+                  index === currentTestimonial ? 'bg-primary-600' : 'bg-gray-300'
                 }`}
               />
             ))}
