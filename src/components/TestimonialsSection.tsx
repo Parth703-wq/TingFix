@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Star } from 'lucide-react';
 
 const TestimonialsSection = () => {
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
@@ -66,7 +66,7 @@ const TestimonialsSection = () => {
                 
                 <div className="flex justify-center mb-4">
                   {[...Array(testimonials[currentTestimonial].rating)].map((_, i) => (
-                    <span key={i} className="text-yellow-400 text-2xl">⭐</span>
+                    <Star key={i} className="w-6 h-6 text-yellow-400 fill-current" />
                   ))}
                 </div>
 

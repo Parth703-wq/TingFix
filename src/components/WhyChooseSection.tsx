@@ -1,26 +1,27 @@
 
 import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
+import { Shield, DollarSign, Home, Star } from 'lucide-react';
 
 const WhyChooseSection = () => {
   const features = [
     {
-      icon: '✅',
+      icon: Shield,
       title: 'Verified Professionals',
       description: 'All our service providers are background-checked and verified for your safety'
     },
     {
-      icon: '💰',
+      icon: DollarSign,
       title: 'Transparent Pricing',
       description: 'No hidden charges. See upfront pricing before you book any service'
     },
     {
-      icon: '🏠',
+      icon: Home,
       title: 'At-Home Convenience',
       description: 'Enjoy professional services in the comfort and safety of your home'
     },
     {
-      icon: '⭐',
+      icon: Star,
       title: 'Customer Ratings',
       description: 'Choose from top-rated professionals based on genuine customer reviews'
     }
@@ -35,15 +36,20 @@ const WhyChooseSection = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {features.map((feature, index) => (
-            <Card key={index} className="text-center border-0 shadow-lg hover:shadow-xl transition-shadow">
-              <CardContent className="p-8">
-                <div className="text-4xl mb-4">{feature.icon}</div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-3">{feature.title}</h3>
-                <p className="text-gray-600 text-sm leading-relaxed">{feature.description}</p>
-              </CardContent>
-            </Card>
-          ))}
+          {features.map((feature, index) => {
+            const IconComponent = feature.icon;
+            return (
+              <Card key={index} className="text-center border-0 shadow-lg hover:shadow-xl transition-shadow">
+                <CardContent className="p-8">
+                  <div className="flex justify-center mb-4">
+                    <IconComponent className="w-12 h-12 text-primary-500" />
+                  </div>
+                  <h3 className="text-xl font-semibold text-gray-900 mb-3">{feature.title}</h3>
+                  <p className="text-gray-600 text-sm leading-relaxed">{feature.description}</p>
+                </CardContent>
+              </Card>
+            );
+          })}
         </div>
       </div>
     </section>
