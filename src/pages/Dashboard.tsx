@@ -1,122 +1,105 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Calendar, MapPin, User, CreditCard, Clock, Star } from 'lucide-react';
-import { toast } from '@/hooks/use-toast';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
+import { 
+  User, 
+  Calendar, 
+  Clock, 
+  MapPin, 
+  Phone, 
+  Mail, 
+  Edit3, 
+  Download,
+  CheckCircle,
+  XCircle,
+  Star,
+  CreditCard,
+  Settings,
+  Bell,
+  Shield
+} from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
 
 const Dashboard = () => {
   const [searchParams] = useSearchParams();
-  const [activeTab, setActiveTab] = useState('bookings');
+  const { user } = useAuth();
+  const activeTab = searchParams.get('tab') || 'overview';
+  const [isEditing, setIsEditing] = useState(false);
+  
+  // User profile state
+  const [profileData, setProfileData] = useState({
+    name: 'John Doe',
+    email: user?.email || 'john.doe@example.com',
+    phone: '+91 98765 43210',
+    address: '123 Main Street, Andheri West, Mumbai, Maharashtra 400001',
+    preferences: 'Prefer morning slots, no loud equipment after 8 PM'
+  });
 
-  useEffect(() => {
-    const tab = searchParams.get('tab');
-    const success = searchParams.get('success');
-    
-    if (tab) setActiveTab(tab);
-    if (success === 'true') {
-      toast({
-        title: "Booking Confirmed!",
-        description: "Your service has been successfully booked. You'll receive a confirmation email shortly.",
-      });
-    }
-  }, [searchParams]);
-
+  // Mock bookings data
   const bookings = [
     {
-      id: 1,
+      id: 'TF001',
       service: 'Deep Home Cleaning',
+      professional: 'Rajesh Kumar',
       date: '2024-01-15',
       time: '10:00 AM',
-      status: 'upcoming',
-      professional: 'Sarah Johnson',
-      price: 1500,
-      image: 'https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=80&h=80&fit=crop'
+      status: 'confirmed',
+      amount: 1200,
+      address: '123 Main Street, Andheri West'
     },
     {
-      id: 2,
-      service: 'AC Service & Repair',
-      date: '2024-01-10',
+      id: 'TF002', 
+      service: 'AC Repair',
+      professional: 'Amit Patel',
+      date: '2024-01-20',
       time: '2:00 PM',
       status: 'completed',
-      professional: 'Mike Chen',
-      price: 800,
-      image: 'https://images.unsplash.com/photo-1504148455328-c376907d081c?w=80&h=80&fit=crop'
+      amount: 800,
+      address: '123 Main Street, Andheri West'
     },
     {
-      id: 3,
-      service: 'Salon at Home',
-      date: '2024-01-05',
+      id: 'TF003',
+      service: 'Electrical Work',
+      professional: 'Vikash Singh',
+      date: '2024-01-25',
       time: '11:00 AM',
-      status: 'completed',
-      professional: 'Priya Sharma',
-      price: 2000,
-      image: 'https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=80&h=80&fit=crop'
+      status: 'pending',
+      amount: 600,
+      address: '123 Main Street, Andheri West'
     }
   ];
 
-  const savedServices = [
-    {
-      id: 1,
-      title: 'Interior Painting',
-      category: 'painting',
-      price: 5000,
-      rating: 4.8,
-      image: 'https://images.unsplash.com/photo-1589939705384-5185137a7f0f?w=80&h=80&fit=crop'
-    },
-    {
-      id: 2,
-      title: 'Personal Fitness Trainer',
-      category: 'fitness',
-      price: 1200,
-      rating: 4.6,
-      image: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=80&h=80&fit=crop'
-    }
-  ];
-
-  const addresses = [
-    {
-      id: 1,
-      label: 'Home',
-      address: '123 Main Street, Apartment 4B, Mumbai, Maharashtra 400001',
-      isDefault: true
-    },
-    {
-      id: 2,
-      label: 'Office',
-      address: '456 Business Park, Floor 3, Mumbai, Maharashtra 400002',
-      isDefault: false
-    }
-  ];
-
-  const paymentMethods = [
-    {
-      id: 1,
-      type: 'card',
-      last4: '4242',
-      brand: 'Visa',
-      isDefault: true
-    },
-    {
-      id: 2,
-      type: 'card',
-      last4: '8888',
-      brand: 'Mastercard',
-      isDefault: false
-    }
-  ];
+  const handleProfileUpdate = () => {
+    setIsEditing(false);
+    alert('Profile updated successfully!');
+  };
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'upcoming': return 'bg-blue-100 text-blue-700';
-      case 'completed': return 'bg-green-100 text-green-700';
-      case 'cancelled': return 'bg-red-100 text-red-700';
-      default: return 'bg-gray-100 text-gray-700';
+      case 'confirmed': return 'bg-blue-100 text-blue-800';
+      case 'completed': return 'bg-green-100 text-green-800';
+      case 'pending': return 'bg-yellow-100 text-yellow-800';
+      case 'cancelled': return 'bg-red-100 text-red-800';
+      default: return 'bg-gray-100 text-gray-800';
+    }
+  };
+
+  const getStatusIcon = (status: string) => {
+    switch (status) {
+      case 'confirmed': return <CheckCircle className="w-4 h-4" />;
+      case 'completed': return <CheckCircle className="w-4 h-4" />;
+      case 'pending': return <Clock className="w-4 h-4" />;
+      case 'cancelled': return <XCircle className="w-4 h-4" />;
+      default: return <Clock className="w-4 h-4" />;
     }
   };
 
@@ -125,219 +108,358 @@ const Dashboard = () => {
       <Header />
       
       <div className="container mx-auto px-4 py-8">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">My Dashboard</h1>
-          <p className="text-gray-600">Manage your bookings and account settings</p>
-        </div>
+        <div className="max-w-6xl mx-auto">
+          {/* Header */}
+          <div className="mb-8">
+            <div className="bg-gradient-to-r from-primary-600 to-primary-700 rounded-2xl p-8 text-white">
+              <div className="flex items-center space-x-6">
+                <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center">
+                  <User className="w-10 h-10 text-white" />
+                </div>
+                <div className="flex-1">
+                  <h1 className="text-3xl font-bold mb-2">Welcome back, {profileData.name}!</h1>
+                  <p className="text-primary-100 text-lg">Manage your bookings and profile settings</p>
+                </div>
+                <div className="text-right">
+                  <Badge className="bg-white/20 text-white border-white/30 mb-2">
+                    <Shield className="w-3 h-3 mr-1" />
+                    Verified Member
+                  </Badge>
+                  <p className="text-primary-100">Member since Jan 2024</p>
+                </div>
+              </div>
+            </div>
+          </div>
 
-        <Tabs value={activeTab} onValueChange={setActiveTab}>
-          <TabsList className="grid w-full grid-cols-5">
-            <TabsTrigger value="bookings">My Bookings</TabsTrigger>
-            <TabsTrigger value="saved">Saved Services</TabsTrigger>
-            <TabsTrigger value="addresses">Address Book</TabsTrigger>
-            <TabsTrigger value="payments">Payment Methods</TabsTrigger>
-            <TabsTrigger value="support">Support</TabsTrigger>
-          </TabsList>
+          {/* Stats Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+            <Card>
+              <CardContent className="p-6 text-center">
+                <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                  <Calendar className="w-6 h-6 text-blue-600" />
+                </div>
+                <h3 className="text-2xl font-bold text-gray-900">{bookings.length}</h3>
+                <p className="text-gray-600">Total Bookings</p>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardContent className="p-6 text-center">
+                <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                  <CheckCircle className="w-6 h-6 text-green-600" />
+                </div>
+                <h3 className="text-2xl font-bold text-gray-900">{bookings.filter(b => b.status === 'completed').length}</h3>
+                <p className="text-gray-600">Completed</p>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardContent className="p-6 text-center">
+                <div className="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                  <Clock className="w-6 h-6 text-yellow-600" />
+                </div>
+                <h3 className="text-2xl font-bold text-gray-900">{bookings.filter(b => b.status === 'pending' || b.status === 'confirmed').length}</h3>
+                <p className="text-gray-600">Upcoming</p>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardContent className="p-6 text-center">
+                <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                  <CreditCard className="w-6 h-6 text-purple-600" />
+                </div>
+                <h3 className="text-2xl font-bold text-gray-900">₹{bookings.reduce((sum, b) => sum + b.amount, 0)}</h3>
+                <p className="text-gray-600">Total Spent</p>
+              </CardContent>
+            </Card>
+          </div>
 
-          <TabsContent value="bookings" className="mt-6">
-            <div className="space-y-4">
-              {bookings.map((booking) => (
-                <Card key={booking.id}>
-                  <CardContent className="p-6">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center space-x-4">
-                        <img
-                          src={booking.image}
-                          alt={booking.service}
-                          className="w-16 h-16 rounded-lg object-cover"
-                        />
-                        <div>
-                          <h3 className="font-semibold text-lg">{booking.service}</h3>
-                          <div className="flex items-center space-x-4 text-gray-600 mt-1">
-                            <div className="flex items-center">
-                              <Calendar className="w-4 h-4 mr-1" />
-                              <span>{new Date(booking.date).toLocaleDateString()}</span>
-                            </div>
-                            <div className="flex items-center">
-                              <Clock className="w-4 h-4 mr-1" />
-                              <span>{booking.time}</span>
-                            </div>
-                            <div className="flex items-center">
-                              <User className="w-4 h-4 mr-1" />
-                              <span>{booking.professional}</span>
-                            </div>
-                          </div>
+          {/* Main Content */}
+          <Tabs value={activeTab} className="space-y-6">
+            <TabsList className="grid w-full grid-cols-4">
+              <TabsTrigger value="overview">Overview</TabsTrigger>
+              <TabsTrigger value="bookings">My Bookings</TabsTrigger>
+              <TabsTrigger value="profile">Profile</TabsTrigger>
+              <TabsTrigger value="settings">Settings</TabsTrigger>
+            </TabsList>
+
+            <TabsContent value="overview" className="space-y-6">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                {/* Recent Bookings */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Recent Bookings</CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    {bookings.slice(0, 3).map((booking) => (
+                      <div key={booking.id} className="flex items-center space-x-4 p-3 bg-gray-50 rounded-lg">
+                        <div className="w-10 h-10 bg-primary-100 rounded-full flex items-center justify-center">
+                          {getStatusIcon(booking.status)}
                         </div>
-                      </div>
-                      <div className="text-right">
+                        <div className="flex-1">
+                          <h4 className="font-medium">{booking.service}</h4>
+                          <p className="text-sm text-gray-600">{booking.professional}</p>
+                          <p className="text-xs text-gray-500">{new Date(booking.date).toLocaleDateString()} at {booking.time}</p>
+                        </div>
                         <Badge className={getStatusColor(booking.status)}>
                           {booking.status}
                         </Badge>
-                        <p className="text-lg font-semibold mt-2">₹{booking.price}</p>
-                        {booking.status === 'completed' && (
-                          <Button size="sm" variant="outline" className="mt-2">
-                            Rate Service
-                          </Button>
-                        )}
                       </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </TabsContent>
-
-          <TabsContent value="saved" className="mt-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {savedServices.map((service) => (
-                <Card key={service.id}>
-                  <CardContent className="p-4">
-                    <img
-                      src={service.image}
-                      alt={service.title}
-                      className="w-full h-32 object-cover rounded-lg mb-4"
-                    />
-                    <h3 className="font-semibold mb-2">{service.title}</h3>
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center">
-                        <Star className="w-4 h-4 text-yellow-400 fill-current mr-1" />
-                        <span className="text-sm">{service.rating}</span>
-                      </div>
-                      <span className="font-semibold">₹{service.price}</span>
-                    </div>
-                    <Button className="w-full mt-4 bg-primary-500 hover:bg-primary-600">
-                      Book Now
+                    ))}
+                    <Button variant="outline" className="w-full mt-4">
+                      View All Bookings
                     </Button>
                   </CardContent>
                 </Card>
-              ))}
-            </div>
-          </TabsContent>
 
-          <TabsContent value="addresses" className="mt-6">
-            <div className="space-y-4">
-              {addresses.map((address) => (
-                <Card key={address.id}>
-                  <CardContent className="p-6">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-start space-x-4">
-                        <MapPin className="w-5 h-5 text-gray-500 mt-1" />
-                        <div>
-                          <div className="flex items-center space-x-2">
-                            <h3 className="font-semibold">{address.label}</h3>
-                            {address.isDefault && (
-                              <Badge className="bg-primary-100 text-primary-700">Default</Badge>
-                            )}
-                          </div>
-                          <p className="text-gray-600 mt-1">{address.address}</p>
-                        </div>
-                      </div>
-                      <div className="flex space-x-2">
-                        <Button size="sm" variant="outline">Edit</Button>
-                        {!address.isDefault && (
-                          <Button size="sm" variant="outline">Delete</Button>
-                        )}
-                      </div>
-                    </div>
+                {/* Quick Actions */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Quick Actions</CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <Button className="w-full justify-start" onClick={() => window.location.href = '/services'}>
+                      <Calendar className="w-4 h-4 mr-2" />
+                      Book New Service
+                    </Button>
+                    <Button variant="outline" className="w-full justify-start">
+                      <Star className="w-4 h-4 mr-2" />
+                      Rate Recent Service
+                    </Button>
+                    <Button variant="outline" className="w-full justify-start">
+                      <Download className="w-4 h-4 mr-2" />
+                      Download Invoices
+                    </Button>
+                    <Button variant="outline" className="w-full justify-start">
+                      <Bell className="w-4 h-4 mr-2" />
+                      Notification Settings
+                    </Button>
                   </CardContent>
                 </Card>
-              ))}
-              <Card className="border-dashed">
-                <CardContent className="p-6 text-center">
-                  <Button className="bg-primary-500 hover:bg-primary-600">
-                    Add New Address
-                  </Button>
-                </CardContent>
-              </Card>
-            </div>
-          </TabsContent>
+              </div>
+            </TabsContent>
 
-          <TabsContent value="payments" className="mt-6">
-            <div className="space-y-4">
-              {paymentMethods.map((method) => (
-                <Card key={method.id}>
-                  <CardContent className="p-6">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center space-x-4">
-                        <CreditCard className="w-8 h-8 text-gray-500" />
-                        <div>
-                          <div className="flex items-center space-x-2">
-                            <h3 className="font-semibold">{method.brand} ending in {method.last4}</h3>
-                            {method.isDefault && (
-                              <Badge className="bg-primary-100 text-primary-700">Default</Badge>
-                            )}
-                          </div>
-                          <p className="text-gray-600 text-sm">Expires 12/25</p>
-                        </div>
-                      </div>
-                      <div className="flex space-x-2">
-                        <Button size="sm" variant="outline">Edit</Button>
-                        {!method.isDefault && (
-                          <Button size="sm" variant="outline">Remove</Button>
-                        )}
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-              <Card className="border-dashed">
-                <CardContent className="p-6 text-center">
-                  <Button className="bg-primary-500 hover:bg-primary-600">
-                    Add Payment Method
-                  </Button>
-                </CardContent>
-              </Card>
-            </div>
-          </TabsContent>
-
-          <TabsContent value="support" className="mt-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <TabsContent value="bookings" className="space-y-6">
               <Card>
                 <CardHeader>
-                  <CardTitle>Need Help?</CardTitle>
+                  <CardTitle>All Bookings</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-gray-600 mb-4">
-                    Get instant answers to common questions or contact our support team.
-                  </p>
-                  <div className="space-y-2">
-                    <Button variant="outline" className="w-full justify-start">
-                      📞 Call Support
-                    </Button>
-                    <Button variant="outline" className="w-full justify-start">
-                      💬 Live Chat
-                    </Button>
-                    <Button variant="outline" className="w-full justify-start">
-                      📧 Email Support
-                    </Button>
+                  <div className="space-y-4">
+                    {bookings.map((booking) => (
+                      <Card key={booking.id} className="border-l-4 border-l-primary-500">
+                        <CardContent className="p-6">
+                          <div className="flex items-start justify-between">
+                            <div className="flex-1">
+                              <div className="flex items-center space-x-4 mb-3">
+                                <h3 className="text-lg font-semibold">{booking.service}</h3>
+                                <Badge className={getStatusColor(booking.status)}>
+                                  {getStatusIcon(booking.status)}
+                                  <span className="ml-1">{booking.status}</span>
+                                </Badge>
+                              </div>
+                              
+                              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
+                                <div className="flex items-center space-x-2">
+                                  <User className="w-4 h-4 text-gray-500" />
+                                  <span className="text-sm">{booking.professional}</span>
+                                </div>
+                                <div className="flex items-center space-x-2">
+                                  <Calendar className="w-4 h-4 text-gray-500" />
+                                  <span className="text-sm">{new Date(booking.date).toLocaleDateString()}</span>
+                                </div>
+                                <div className="flex items-center space-x-2">
+                                  <Clock className="w-4 h-4 text-gray-500" />
+                                  <span className="text-sm">{booking.time}</span>
+                                </div>
+                                <div className="flex items-center space-x-2">
+                                  <CreditCard className="w-4 h-4 text-gray-500" />
+                                  <span className="text-sm font-medium">₹{booking.amount}</span>
+                                </div>
+                              </div>
+                              
+                              <div className="flex items-center space-x-2 text-sm text-gray-600">
+                                <MapPin className="w-4 h-4" />
+                                <span>{booking.address}</span>
+                              </div>
+                            </div>
+                            
+                            <div className="flex space-x-2 ml-4">
+                              <Button size="sm" variant="outline">
+                                <Download className="w-4 h-4" />
+                              </Button>
+                              {booking.status === 'confirmed' && (
+                                <Button size="sm" variant="outline">
+                                  <Edit3 className="w-4 h-4" />
+                                </Button>
+                              )}
+                            </div>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    ))}
                   </div>
                 </CardContent>
               </Card>
+            </TabsContent>
 
+            <TabsContent value="profile" className="space-y-6">
               <Card>
-                <CardHeader>
-                  <CardTitle>Quick Links</CardTitle>
+                <CardHeader className="flex flex-row items-center justify-between">
+                  <CardTitle>Profile Information</CardTitle>
+                  <Button 
+                    variant="outline" 
+                    size="sm"
+                    onClick={() => setIsEditing(!isEditing)}
+                  >
+                    <Edit3 className="w-4 h-4 mr-2" />
+                    {isEditing ? 'Cancel' : 'Edit Profile'}
+                  </Button>
                 </CardHeader>
-                <CardContent>
-                  <div className="space-y-2">
-                    <Button variant="ghost" className="w-full justify-start">
-                      📋 Service Guidelines
-                    </Button>
-                    <Button variant="ghost" className="w-full justify-start">
-                      🔒 Safety & Security
-                    </Button>
-                    <Button variant="ghost" className="w-full justify-start">
-                      📝 Terms & Conditions
-                    </Button>
-                    <Button variant="ghost" className="w-full justify-start">
-                      🔄 Cancellation Policy
-                    </Button>
+                <CardContent className="space-y-6">
+                  <div className="flex items-center space-x-6 p-6 bg-gradient-to-r from-primary-50 to-primary-100 rounded-lg">
+                    <div className="w-20 h-20 bg-primary-500 rounded-full flex items-center justify-center">
+                      <User className="w-10 h-10 text-white" />
+                    </div>
+                    <div>
+                      <h3 className="text-xl font-bold text-gray-900">{profileData.name}</h3>
+                      <p className="text-primary-600">{profileData.email}</p>
+                      <Badge className="mt-2 bg-green-100 text-green-800">
+                        <Shield className="w-3 h-3 mr-1" />
+                        Verified Account
+                      </Badge>
+                    </div>
                   </div>
+
+                  {isEditing ? (
+                    <div className="space-y-4">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                          <Label htmlFor="name">Full Name</Label>
+                          <Input
+                            id="name"
+                            value={profileData.name}
+                            onChange={(e) => setProfileData({...profileData, name: e.target.value})}
+                          />
+                        </div>
+                        <div>
+                          <Label htmlFor="phone">Phone Number</Label>
+                          <Input
+                            id="phone"
+                            value={profileData.phone}
+                            onChange={(e) => setProfileData({...profileData, phone: e.target.value})}
+                          />
+                        </div>
+                      </div>
+                      
+                      <div>
+                        <Label htmlFor="address">Address</Label>
+                        <Textarea
+                          id="address"
+                          value={profileData.address}
+                          onChange={(e) => setProfileData({...profileData, address: e.target.value})}
+                          rows={3}
+                        />
+                      </div>
+                      
+                      <div>
+                        <Label htmlFor="preferences">Service Preferences</Label>
+                        <Textarea
+                          id="preferences"
+                          value={profileData.preferences}
+                          onChange={(e) => setProfileData({...profileData, preferences: e.target.value})}
+                          rows={3}
+                        />
+                      </div>
+                      
+                      <Button onClick={handleProfileUpdate} className="w-full">
+                        Save Changes
+                      </Button>
+                    </div>
+                  ) : (
+                    <div className="space-y-4">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div className="space-y-3">
+                          <div className="flex items-center space-x-3">
+                            <Mail className="w-5 h-5 text-gray-500" />
+                            <div>
+                              <p className="text-sm text-gray-600">Email</p>
+                              <p className="font-medium">{profileData.email}</p>
+                            </div>
+                          </div>
+                          <div className="flex items-center space-x-3">
+                            <Phone className="w-5 h-5 text-gray-500" />
+                            <div>
+                              <p className="text-sm text-gray-600">Phone</p>
+                              <p className="font-medium">{profileData.phone}</p>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="space-y-3">
+                          <div className="flex items-start space-x-3">
+                            <MapPin className="w-5 h-5 text-gray-500 mt-1" />
+                            <div>
+                              <p className="text-sm text-gray-600">Address</p>
+                              <p className="font-medium">{profileData.address}</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <div className="pt-4 border-t">
+                        <div className="flex items-start space-x-3">
+                          <Settings className="w-5 h-5 text-gray-500 mt-1" />
+                          <div>
+                            <p className="text-sm text-gray-600">Service Preferences</p>
+                            <p className="font-medium">{profileData.preferences}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </CardContent>
               </Card>
-            </div>
-          </TabsContent>
-        </Tabs>
+            </TabsContent>
+
+            <TabsContent value="settings" className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Notification Settings</CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div className="flex items-center justify-between">
+                      <span>Email Notifications</span>
+                      <input type="checkbox" defaultChecked className="toggle" />
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span>SMS Notifications</span>
+                      <input type="checkbox" defaultChecked className="toggle" />
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span>Booking Reminders</span>
+                      <input type="checkbox" defaultChecked className="toggle" />
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Account Security</CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <Button variant="outline" className="w-full justify-start">
+                      Change Password
+                    </Button>
+                    <Button variant="outline" className="w-full justify-start">
+                      Two-Factor Authentication
+                    </Button>
+                    <Button variant="outline" className="w-full justify-start">
+                      Download Data
+                    </Button>
+                  </CardContent>
+                </Card>
+              </div>
+            </TabsContent>
+          </Tabs>
+        </div>
       </div>
       
       <Footer />
