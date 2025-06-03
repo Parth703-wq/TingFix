@@ -47,6 +47,12 @@ const ContactUs = () => {
       address: "789 Connaught Place, New Delhi - 110001",
       phone: "+91 11 1234 5678",
       email: "delhi@tingfix.com"
+    },
+    {
+      city: "Bharuch",
+      address: "101 Service Center, Station Road, Bharuch - 392001, Gujarat",
+      phone: "+91 2642 123456",
+      email: "bharuch@tingfix.com"
     }
   ];
 

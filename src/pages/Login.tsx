@@ -6,14 +6,13 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { useAuth } from '@/contexts/AuthContext';
-import { Wrench, Eye, EyeOff, User, Briefcase } from 'lucide-react';
+import { Wrench, Eye, EyeOff, User } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const [activeTab, setActiveTab] = useState<'user' | 'professional'>('user');
   const { login, isLoading } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
@@ -40,15 +39,9 @@ const Login = () => {
     }
   };
 
-  const setDemoCredentials = (type: 'user' | 'professional') => {
-    if (type === 'user') {
-      setEmail('demo.user@tingfix.com');
-      setPassword('user123');
-    } else {
-      setEmail('demo.pro@tingfix.com');
-      setPassword('pro123');
-    }
-    setActiveTab(type);
+  const setDemoCredentials = () => {
+    setEmail('demo.user@tingfix.com');
+    setPassword('user123');
   };
 
   return (
@@ -66,32 +59,6 @@ const Login = () => {
         </CardHeader>
 
         <CardContent className="space-y-6">
-          {/* User Type Tabs */}
-          <div className="flex border rounded-lg p-1 bg-gray-100">
-            <button
-              onClick={() => setActiveTab('user')}
-              className={`flex-1 flex items-center justify-center space-x-2 py-2 px-4 rounded-md text-sm font-medium transition-colors ${
-                activeTab === 'user'
-                  ? 'bg-white text-primary-600 shadow-sm'
-                  : 'text-gray-600 hover:text-gray-900'
-              }`}
-            >
-              <User className="w-4 h-4" />
-              <span>Customer</span>
-            </button>
-            <button
-              onClick={() => setActiveTab('professional')}
-              className={`flex-1 flex items-center justify-center space-x-2 py-2 px-4 rounded-md text-sm font-medium transition-colors ${
-                activeTab === 'professional'
-                  ? 'bg-white text-primary-600 shadow-sm'
-                  : 'text-gray-600 hover:text-gray-900'
-              }`}
-            >
-              <Briefcase className="w-4 h-4" />
-              <span>Professional</span>
-            </button>
-          </div>
-
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
@@ -134,34 +101,19 @@ const Login = () => {
           {/* Demo Credentials */}
           <div className="space-y-3">
             <div className="text-center text-sm text-gray-500">Demo Credentials</div>
-            <div className="grid grid-cols-1 gap-2">
-              <Button
-                type="button"
-                variant="outline"
-                size="sm"
-                onClick={() => setDemoCredentials('user')}
-                className="text-left justify-start"
-              >
-                <User className="w-4 h-4 mr-2" />
-                <div>
-                  <div className="font-medium">Customer Demo</div>
-                  <div className="text-xs text-gray-500">demo.user@tingfix.com / user123</div>
-                </div>
-              </Button>
-              <Button
-                type="button"
-                variant="outline"
-                size="sm"
-                onClick={() => setDemoCredentials('professional')}
-                className="text-left justify-start"
-              >
-                <Briefcase className="w-4 h-4 mr-2" />
-                <div>
-                  <div className="font-medium">Professional Demo</div>
-                  <div className="text-xs text-gray-500">demo.pro@tingfix.com / pro123</div>
-                </div>
-              </Button>
-            </div>
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={setDemoCredentials}
+              className="w-full text-left justify-start"
+            >
+              <User className="w-4 h-4 mr-2" />
+              <div>
+                <div className="font-medium">Customer Demo</div>
+                <div className="text-xs text-gray-500">demo.user@tingfix.com / user123</div>
+              </div>
+            </Button>
           </div>
 
           <div className="text-center text-sm text-gray-600">
