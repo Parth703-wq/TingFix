@@ -1,107 +1,35 @@
-
 import React, { useState } from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Link } from 'react-router-dom';
-import { Star, Clock, MapPin } from 'lucide-react';
+import { Link, useSearchParams } from 'react-router-dom';
+import { Star, Clock, MapPin, Phone, Mail, Shield } from 'lucide-react';
+import { professionals } from '@/data/professionals';
 
 const Services = () => {
-  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [searchParams] = useSearchParams();
+  const categoryParam = searchParams.get('category');
+  const [selectedCategory, setSelectedCategory] = useState(categoryParam || 'all');
   const [priceRange, setPriceRange] = useState('all');
   const [rating, setRating] = useState('all');
-
-  const services = [
-    {
-      id: 1,
-      title: 'Deep Home Cleaning',
-      category: 'cleaning',
-      image: 'https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=400&h=300&fit=crop',
-      price: 1500,
-      duration: '3-4 hours',
-      rating: 4.8,
-      reviews: 2847,
-      description: 'Comprehensive deep cleaning for your entire home including kitchen, bathrooms, and all rooms.'
-    },
-    {
-      id: 2,
-      title: 'Salon at Home - Hair & Beauty',
-      category: 'beauty',
-      image: 'https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=400&h=300&fit=crop',
-      price: 2000,
-      duration: '2-3 hours',
-      rating: 4.9,
-      reviews: 1923,
-      description: 'Professional hair styling, facial, and beauty treatments in the comfort of your home.'
-    },
-    {
-      id: 3,
-      title: 'AC Service & Repair',
-      category: 'appliances',
-      image: 'https://images.unsplash.com/photo-1504148455328-c376907d081c?w=400&h=300&fit=crop',
-      price: 800,
-      duration: '1-2 hours',
-      rating: 4.7,
-      reviews: 3421,
-      description: 'Complete AC maintenance, gas refilling, and repair services by certified technicians.'
-    },
-    {
-      id: 4,
-      title: 'Personal Fitness Trainer',
-      category: 'fitness',
-      image: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop',
-      price: 1200,
-      duration: '1 hour',
-      rating: 4.6,
-      reviews: 856,
-      description: 'Certified personal trainers for customized workout sessions at your home or nearby park.'
-    },
-    {
-      id: 5,
-      title: 'Plumbing Services',
-      category: 'repairs',
-      image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=300&fit=crop',
-      price: 500,
-      duration: '1-3 hours',
-      rating: 4.5,
-      reviews: 2156,
-      description: 'Expert plumbing services for leaks, installations, and emergency repairs.'
-    },
-    {
-      id: 6,
-      title: 'Interior Painting',
-      category: 'painting',
-      image: 'https://images.unsplash.com/photo-1589939705384-5185137a7f0f?w=400&h=300&fit=crop',
-      price: 5000,
-      duration: '1-2 days',
-      rating: 4.8,
-      reviews: 1245,
-      description: 'Professional interior painting services with premium quality paints and expert finish.'
-    }
-  ];
 
   const categories = [
     { id: 'all', name: 'All Services' },
     { id: 'cleaning', name: 'Cleaning' },
     { id: 'beauty', name: 'Beauty & Wellness' },
-    { id: 'repairs', name: 'Home Repairs' },
-    { id: 'fitness', name: 'Fitness' },
+    { id: 'electrical', name: 'Electrical' },
+    { id: 'plumbing', name: 'Plumbing' },
     { id: 'appliances', name: 'Appliances' },
     { id: 'painting', name: 'Painting' }
   ];
 
-  const filteredServices = services.filter(service => {
-    if (selectedCategory !== 'all' && service.category !== selectedCategory) return false;
-    if (priceRange !== 'all') {
-      if (priceRange === 'low' && service.price > 1000) return false;
-      if (priceRange === 'medium' && (service.price < 1000 || service.price > 3000)) return false;
-      if (priceRange === 'high' && service.price < 3000) return false;
-    }
+  const filteredProfessionals = professionals.filter(professional => {
+    if (selectedCategory !== 'all' && professional.category !== selectedCategory) return false;
     if (rating !== 'all') {
-      if (rating === '4+' && service.rating < 4) return false;
-      if (rating === '4.5+' && service.rating < 4.5) return false;
+      if (rating === '4+' && professional.rating < 4) return false;
+      if (rating === '4.5+' && professional.rating < 4.5) return false;
     }
     return true;
   });
@@ -112,8 +40,8 @@ const Services = () => {
       
       <div className="container mx-auto px-4 py-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Our Services</h1>
-          <p className="text-gray-600">Find the perfect service for your needs</p>
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">Our Professionals</h1>
+          <p className="text-gray-600">Connect with verified professionals for your home service needs</p>
         </div>
 
         <div className="flex flex-col lg:flex-row gap-8">
@@ -137,30 +65,6 @@ const Services = () => {
                         }`}
                       >
                         {category.name}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="mb-6">
-                  <h4 className="font-medium mb-3">Price Range</h4>
-                  <div className="space-y-2">
-                    {[
-                      { id: 'all', name: 'All Prices' },
-                      { id: 'low', name: 'Under ₹1,000' },
-                      { id: 'medium', name: '₹1,000 - ₹3,000' },
-                      { id: 'high', name: 'Above ₹3,000' }
-                    ].map(price => (
-                      <button
-                        key={price.id}
-                        onClick={() => setPriceRange(price.id)}
-                        className={`block w-full text-left px-3 py-2 rounded-lg text-sm transition-colors ${
-                          priceRange === price.id 
-                            ? 'bg-primary-500 text-white' 
-                            : 'hover:bg-gray-100'
-                        }`}
-                      >
-                        {price.name}
                       </button>
                     ))}
                   </div>
@@ -192,52 +96,74 @@ const Services = () => {
             </Card>
           </div>
 
-          {/* Services Grid */}
+          {/* Professionals Grid */}
           <div className="lg:w-3/4">
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-              {filteredServices.map(service => (
-                <Card key={service.id} className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+              {filteredProfessionals.map(professional => (
+                <Card key={professional.id} className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
                   <CardContent className="p-0">
                     <div className="relative overflow-hidden">
                       <img
-                        src={service.image}
-                        alt={service.title}
+                        src={professional.image}
+                        alt={professional.name}
                         className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
                       />
-                      <Badge className="absolute top-3 right-3 bg-white text-gray-800">
-                        {service.category}
-                      </Badge>
+                      {professional.verified && (
+                        <Badge className="absolute top-3 right-3 bg-green-500 text-white">
+                          <Shield className="w-3 h-3 mr-1" />
+                          Verified
+                        </Badge>
+                      )}
                     </div>
                     
                     <div className="p-4">
-                      <h3 className="font-semibold text-lg mb-2 group-hover:text-primary-600 transition-colors">
-                        {service.title}
+                      <h3 className="font-semibold text-lg mb-1 group-hover:text-primary-600 transition-colors">
+                        {professional.name}
                       </h3>
-                      <p className="text-gray-600 text-sm mb-3 line-clamp-2">
-                        {service.description}
+                      <p className="text-primary-600 font-medium mb-2">
+                        {professional.profession}
+                      </p>
+                      <p className="text-gray-600 text-sm mb-3">
+                        {professional.description}
                       </p>
                       
                       <div className="flex items-center justify-between mb-3">
                         <div className="flex items-center space-x-1">
                           <Star className="w-4 h-4 text-yellow-400 fill-current" />
-                          <span className="font-medium">{service.rating}</span>
-                          <span className="text-gray-500 text-sm">({service.reviews})</span>
+                          <span className="font-medium">{professional.rating}</span>
+                          <span className="text-gray-500 text-sm">({professional.reviews})</span>
                         </div>
                         <div className="flex items-center text-gray-500 text-sm">
-                          <Clock className="w-4 h-4 mr-1" />
-                          {service.duration}
+                          <MapPin className="w-4 h-4 mr-1" />
+                          {professional.location.split(',')[0]}
                         </div>
                       </div>
+
+                      <div className="flex items-center justify-between mb-3">
+                        <span className="text-sm text-gray-600">{professional.experience} experience</span>
+                        <span className="font-medium text-primary-600">{professional.price}</span>
+                      </div>
+
+                      <div className="flex flex-wrap gap-1 mb-4">
+                        {professional.skills.slice(0, 2).map((skill, index) => (
+                          <Badge key={index} variant="secondary" className="text-xs">
+                            {skill}
+                          </Badge>
+                        ))}
+                        {professional.skills.length > 2 && (
+                          <Badge variant="secondary" className="text-xs">
+                            +{professional.skills.length - 2} more
+                          </Badge>
+                        )}
+                      </div>
                       
-                      <div className="flex items-center justify-between">
-                        <div>
-                          <span className="text-2xl font-bold text-primary-600">₹{service.price}</span>
-                        </div>
-                        <Link to={`/service/${service.id}`}>
-                          <Button size="sm" className="bg-primary-500 hover:bg-primary-600">
-                            Book Now
-                          </Button>
-                        </Link>
+                      <div className="flex gap-2">
+                        <Button size="sm" className="flex-1 bg-primary-500 hover:bg-primary-600">
+                          Book Now
+                        </Button>
+                        <Button size="sm" variant="outline" className="px-3">
+                          <Phone className="w-4 h-4" />
+                        </Button>
                       </div>
                     </div>
                   </CardContent>
@@ -245,9 +171,9 @@ const Services = () => {
               ))}
             </div>
             
-            {filteredServices.length === 0 && (
+            {filteredProfessionals.length === 0 && (
               <div className="text-center py-12">
-                <p className="text-gray-500 text-lg">No services found matching your criteria.</p>
+                <p className="text-gray-500 text-lg">No professionals found matching your criteria.</p>
               </div>
             )}
           </div>

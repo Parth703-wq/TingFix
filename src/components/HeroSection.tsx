@@ -2,10 +2,28 @@
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Search, MapPin, CheckCircle, Star, Users, Shield, Clock } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const HeroSection = () => {
   const [location, setLocation] = useState('');
   const [service, setService] = useState('');
+  const navigate = useNavigate();
+
+  const handleGetStarted = () => {
+    navigate('/services');
+  };
+
+  const handleViewServices = () => {
+    navigate('/services');
+  };
+
+  const handleFindProfessionals = () => {
+    if (service) {
+      navigate(`/services?category=${service}`);
+    } else {
+      navigate('/services');
+    }
+  };
 
   const stats = [
     { number: "50,000+", label: "Happy Customers" },
@@ -61,10 +79,19 @@ const HeroSection = () => {
 
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 pt-4">
-              <Button size="lg" className="bg-primary-600 hover:bg-primary-700 text-white px-8 py-4 text-lg font-semibold">
+              <Button 
+                size="lg" 
+                className="bg-primary-600 hover:bg-primary-700 text-white px-8 py-4 text-lg font-semibold"
+                onClick={handleGetStarted}
+              >
                 Get Started Today
               </Button>
-              <Button size="lg" variant="outline" className="border-2 border-gray-300 text-gray-700 hover:bg-gray-50 px-8 py-4 text-lg">
+              <Button 
+                size="lg" 
+                variant="outline" 
+                className="border-2 border-gray-300 text-gray-700 hover:bg-gray-50 px-8 py-4 text-lg"
+                onClick={handleViewServices}
+              >
                 View Our Services
               </Button>
             </div>
@@ -113,7 +140,10 @@ const HeroSection = () => {
                   </div>
                 </div>
 
-                <Button className="w-full bg-primary-600 hover:bg-primary-700 text-white py-3 text-lg font-semibold">
+                <Button 
+                  className="w-full bg-primary-600 hover:bg-primary-700 text-white py-3 text-lg font-semibold"
+                  onClick={handleFindProfessionals}
+                >
                   Find Professionals
                 </Button>
               </div>

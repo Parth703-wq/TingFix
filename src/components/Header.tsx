@@ -1,12 +1,29 @@
 
 import React from 'react';
 import { Button } from '@/components/ui/button';
-import { Link } from 'react-router-dom';
-import { Search, User, MapPin, Wrench } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
+import { Search, User, MapPin, Wrench, LogOut } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
 
 const Header = () => {
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate('/');
+  };
+
+  const handleDashboardClick = () => {
+    if (user?.type === 'professional') {
+      navigate('/professional-dashboard');
+    } else {
+      navigate('/dashboard');
+    }
+  };
+
   return (
-    <header className="bg-white/80 backdrop-blur-lg shadow-lg border-b border-purple-100 sticky top-0 z-50">
+    <header className="bg-white/80 backdrop-blur-lg shadow-lg border-b border-gray-100 sticky top-0 z-50">
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           <Link to="/" className="flex items-center space-x-3">
@@ -22,7 +39,7 @@ const Header = () => {
           </Link>
           
           <div className="hidden md:flex items-center space-x-4 flex-1 max-w-2xl mx-8">
-            <div className="flex items-center space-x-2 glass-card rounded-xl px-4 py-3 flex-1">
+            <div className="flex items-center space-x-2 bg-gray-50 rounded-xl px-4 py-3 flex-1 border">
               <MapPin className="w-5 h-5 text-primary-500" />
               <select className="bg-transparent border-none outline-none text-sm flex-1 text-gray-700">
                 <option>Select Location</option>
@@ -33,7 +50,7 @@ const Header = () => {
                 <option>Hyderabad</option>
               </select>
             </div>
-            <div className="flex items-center space-x-2 glass-card rounded-xl px-4 py-3 flex-1">
+            <div className="flex items-center space-x-2 bg-gray-50 rounded-xl px-4 py-3 flex-1 border">
               <Search className="w-5 h-5 text-primary-500" />
               <input 
                 type="text" 
@@ -44,15 +61,33 @@ const Header = () => {
           </div>
 
           <div className="flex items-center space-x-4">
-            <Link to="/dashboard">
-              <Button variant="ghost" size="sm" className="hidden md:flex text-gray-700 hover:text-primary-600 hover:bg-primary-50">
-                <User className="w-4 h-4 mr-2" />
-                Profile
-              </Button>
-            </Link>
-            <Button size="sm" className="bg-gradient-to-r from-primary-600 to-secondary-600 hover:from-primary-700 hover:to-secondary-700 text-white px-6 shadow-lg hover:shadow-xl transition-all duration-300">
-              Sign In
-            </Button>
+            {user ? (
+              <div className="flex items-center space-x-3">
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  onClick={handleDashboardClick}
+                  className="hidden md:flex text-gray-700 hover:text-primary-600 hover:bg-primary-50"
+                >
+                  <User className="w-4 h-4 mr-2" />
+                  {user.name}
+                </Button>
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  onClick={handleLogout}
+                  className="text-gray-700 hover:text-red-600 hover:bg-red-50"
+                >
+                  <LogOut className="w-4 h-4" />
+                </Button>
+              </div>
+            ) : (
+              <Link to="/login">
+                <Button size="sm" className="bg-gradient-to-r from-primary-600 to-secondary-600 hover:from-primary-700 hover:to-secondary-700 text-white px-6 shadow-lg hover:shadow-xl transition-all duration-300">
+                  Sign In
+                </Button>
+              </Link>
+            )}
           </div>
         </div>
       </div>
