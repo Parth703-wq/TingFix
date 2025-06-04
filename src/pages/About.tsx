@@ -3,7 +3,7 @@ import React from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { Card, CardContent } from '@/components/ui/card';
-import { Shield, Users, Clock, Award, Target, Heart } from 'lucide-react';
+import { Shield, Users, Clock, Award, Target, Heart, Code, Wrench, Lightbulb, Settings } from 'lucide-react';
 
 const About = () => {
   const values = [
@@ -41,22 +41,24 @@ const About = () => {
 
   const team = [
     {
-      name: "Arjun Patel",
-      role: "Founder & CEO",
-      image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=300&h=300&fit=crop&crop=face",
-      description: "Passionate about transforming the home services industry through technology."
+      name: "Hindiya Parth",
+      icon: Code,
+      color: "bg-blue-500"
     },
     {
-      name: "Priya Singh",
-      role: "Head of Operations",
-      image: "https://images.unsplash.com/photo-1494790108755-2616b612b586?w=300&h=300&fit=crop&crop=face",
-      description: "Ensures seamless service delivery and maintains our high-quality standards."
+      name: "Dhruv Joshi",
+      icon: Wrench,
+      color: "bg-green-500"
     },
     {
-      name: "Rahul Kumar",
-      role: "Technology Lead",
-      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=300&fit=crop&crop=face",
-      description: "Drives innovation in our platform to enhance user experience."
+      name: "Uvaish Shaikh",
+      icon: Lightbulb,
+      color: "bg-purple-500"
+    },
+    {
+      name: "Rahul Vasava",
+      icon: Settings,
+      color: "bg-orange-500"
     }
   ];
 
@@ -139,24 +141,16 @@ const About = () => {
             <h2 className="text-3xl font-bold text-center text-gray-900 mb-12">
               Meet Our Team
             </h2>
-            <div className="grid md:grid-cols-3 gap-8">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
               {team.map((member, index) => (
-                <Card key={index} className="text-center">
+                <Card key={index} className="text-center hover:shadow-lg transition-shadow">
                   <CardContent className="p-6">
-                    <img
-                      src={member.image}
-                      alt={member.name}
-                      className="w-24 h-24 rounded-full mx-auto mb-4 object-cover"
-                    />
-                    <h3 className="text-xl font-semibold text-gray-900 mb-1">
+                    <div className={`w-20 h-20 ${member.color} rounded-full flex items-center justify-center mx-auto mb-4`}>
+                      <member.icon className="w-10 h-10 text-white" />
+                    </div>
+                    <h3 className="text-lg font-semibold text-gray-900">
                       {member.name}
                     </h3>
-                    <p className="text-primary-600 font-medium mb-3">
-                      {member.role}
-                    </p>
-                    <p className="text-gray-600 text-sm">
-                      {member.description}
-                    </p>
                   </CardContent>
                 </Card>
               ))}

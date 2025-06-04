@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import Header from '@/components/Header';
@@ -10,6 +9,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { 
   User, 
   Calendar, 
@@ -25,7 +25,11 @@ import {
   CreditCard,
   Settings,
   Bell,
-  Shield
+  Shield,
+  Camera,
+  Save,
+  Upload,
+  Home
 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 
@@ -34,6 +38,7 @@ const Dashboard = () => {
   const { user } = useAuth();
   const activeTab = searchParams.get('tab') || 'overview';
   const [isEditing, setIsEditing] = useState(false);
+  const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
   
   // User profile state
   const [profileData, setProfileData] = useState({
@@ -41,7 +46,11 @@ const Dashboard = () => {
     email: user?.email || 'john.doe@example.com',
     phone: '+91 98765 43210',
     address: '123 Main Street, Andheri West, Mumbai, Maharashtra 400001',
-    preferences: 'Prefer morning slots, no loud equipment after 8 PM'
+    city: 'Mumbai',
+    pincode: '400001',
+    preferences: 'Prefer morning slots, no loud equipment after 8 PM',
+    emergencyContact: '+91 87654 32109',
+    emergencyContactName: 'Jane Doe'
   });
 
   // Mock bookings data
@@ -83,6 +92,17 @@ const Dashboard = () => {
     alert('Profile updated successfully!');
   };
 
+  const handleAvatarChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setAvatarPreview(e.target?.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'confirmed': return 'bg-blue-100 text-blue-800';
@@ -113,8 +133,13 @@ const Dashboard = () => {
           <div className="mb-8">
             <div className="bg-gradient-to-r from-primary-600 to-primary-700 rounded-2xl p-8 text-white">
               <div className="flex items-center space-x-6">
-                <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center">
-                  <User className="w-10 h-10 text-white" />
+                <div className="relative">
+                  <Avatar className="w-20 h-20 border-4 border-white/20">
+                    <AvatarImage src={avatarPreview || undefined} />
+                    <AvatarFallback className="bg-white/20 text-white text-2xl font-bold">
+                      {profileData.name.split(' ').map(n => n[0]).join('')}
+                    </AvatarFallback>
+                  </Avatar>
                 </div>
                 <div className="flex-1">
                   <h1 className="text-3xl font-bold mb-2">Welcome back, {profileData.name}!</h1>
@@ -301,121 +326,241 @@ const Dashboard = () => {
             </TabsContent>
 
             <TabsContent value="profile" className="space-y-6">
-              <Card>
-                <CardHeader className="flex flex-row items-center justify-between">
-                  <CardTitle>Profile Information</CardTitle>
-                  <Button 
-                    variant="outline" 
-                    size="sm"
-                    onClick={() => setIsEditing(!isEditing)}
-                  >
-                    <Edit3 className="w-4 h-4 mr-2" />
-                    {isEditing ? 'Cancel' : 'Edit Profile'}
-                  </Button>
-                </CardHeader>
-                <CardContent className="space-y-6">
-                  <div className="flex items-center space-x-6 p-6 bg-gradient-to-r from-primary-50 to-primary-100 rounded-lg">
-                    <div className="w-20 h-20 bg-primary-500 rounded-full flex items-center justify-center">
-                      <User className="w-10 h-10 text-white" />
-                    </div>
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                {/* Profile Picture Section */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Profile Picture</CardTitle>
+                  </CardHeader>
+                  <CardContent className="text-center space-y-4">
+                    <Avatar className="w-32 h-32 mx-auto">
+                      <AvatarImage src={avatarPreview || undefined} />
+                      <AvatarFallback className="text-2xl font-bold bg-primary-100 text-primary-600">
+                        {profileData.name.split(' ').map(n => n[0]).join('')}
+                      </AvatarFallback>
+                    </Avatar>
                     <div>
-                      <h3 className="text-xl font-bold text-gray-900">{profileData.name}</h3>
-                      <p className="text-primary-600">{profileData.email}</p>
-                      <Badge className="mt-2 bg-green-100 text-green-800">
-                        <Shield className="w-3 h-3 mr-1" />
-                        Verified Account
-                      </Badge>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleAvatarChange}
+                        className="hidden"
+                        id="avatar-upload"
+                      />
+                      <label htmlFor="avatar-upload">
+                        <Button variant="outline" className="cursor-pointer" asChild>
+                          <span>
+                            <Camera className="w-4 h-4 mr-2" />
+                            Change Photo
+                          </span>
+                        </Button>
+                      </label>
                     </div>
-                  </div>
+                  </CardContent>
+                </Card>
 
-                  {isEditing ? (
-                    <div className="space-y-4">
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                          <Label htmlFor="name">Full Name</Label>
-                          <Input
-                            id="name"
-                            value={profileData.name}
-                            onChange={(e) => setProfileData({...profileData, name: e.target.value})}
-                          />
-                        </div>
-                        <div>
-                          <Label htmlFor="phone">Phone Number</Label>
-                          <Input
-                            id="phone"
-                            value={profileData.phone}
-                            onChange={(e) => setProfileData({...profileData, phone: e.target.value})}
-                          />
-                        </div>
-                      </div>
-                      
-                      <div>
-                        <Label htmlFor="address">Address</Label>
-                        <Textarea
-                          id="address"
-                          value={profileData.address}
-                          onChange={(e) => setProfileData({...profileData, address: e.target.value})}
-                          rows={3}
-                        />
-                      </div>
-                      
-                      <div>
-                        <Label htmlFor="preferences">Service Preferences</Label>
-                        <Textarea
-                          id="preferences"
-                          value={profileData.preferences}
-                          onChange={(e) => setProfileData({...profileData, preferences: e.target.value})}
-                          rows={3}
-                        />
-                      </div>
-                      
-                      <Button onClick={handleProfileUpdate} className="w-full">
-                        Save Changes
+                {/* Profile Information */}
+                <div className="lg:col-span-2">
+                  <Card>
+                    <CardHeader className="flex flex-row items-center justify-between">
+                      <CardTitle>Profile Information</CardTitle>
+                      <Button 
+                        variant="outline" 
+                        size="sm"
+                        onClick={() => setIsEditing(!isEditing)}
+                      >
+                        <Edit3 className="w-4 h-4 mr-2" />
+                        {isEditing ? 'Cancel' : 'Edit Profile'}
                       </Button>
-                    </div>
-                  ) : (
-                    <div className="space-y-4">
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div className="space-y-3">
-                          <div className="flex items-center space-x-3">
-                            <Mail className="w-5 h-5 text-gray-500" />
+                    </CardHeader>
+                    <CardContent className="space-y-6">
+                      {isEditing ? (
+                        <div className="space-y-4">
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
-                              <p className="text-sm text-gray-600">Email</p>
-                              <p className="font-medium">{profileData.email}</p>
+                              <Label htmlFor="name">Full Name *</Label>
+                              <Input
+                                id="name"
+                                value={profileData.name}
+                                onChange={(e) => setProfileData({...profileData, name: e.target.value})}
+                                placeholder="Enter your full name"
+                              />
+                            </div>
+                            <div>
+                              <Label htmlFor="phone">Phone Number *</Label>
+                              <Input
+                                id="phone"
+                                value={profileData.phone}
+                                onChange={(e) => setProfileData({...profileData, phone: e.target.value})}
+                                placeholder="Enter your phone number"
+                              />
+                            </div>
+                            <div>
+                              <Label htmlFor="city">City *</Label>
+                              <Input
+                                id="city"
+                                value={profileData.city}
+                                onChange={(e) => setProfileData({...profileData, city: e.target.value})}
+                                placeholder="Enter your city"
+                              />
+                            </div>
+                            <div>
+                              <Label htmlFor="pincode">Pincode *</Label>
+                              <Input
+                                id="pincode"
+                                value={profileData.pincode}
+                                onChange={(e) => setProfileData({...profileData, pincode: e.target.value})}
+                                placeholder="Enter your pincode"
+                              />
                             </div>
                           </div>
-                          <div className="flex items-center space-x-3">
-                            <Phone className="w-5 h-5 text-gray-500" />
-                            <div>
-                              <p className="text-sm text-gray-600">Phone</p>
-                              <p className="font-medium">{profileData.phone}</p>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="space-y-3">
-                          <div className="flex items-start space-x-3">
-                            <MapPin className="w-5 h-5 text-gray-500 mt-1" />
-                            <div>
-                              <p className="text-sm text-gray-600">Address</p>
-                              <p className="font-medium">{profileData.address}</p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      
-                      <div className="pt-4 border-t">
-                        <div className="flex items-start space-x-3">
-                          <Settings className="w-5 h-5 text-gray-500 mt-1" />
+                          
                           <div>
-                            <p className="text-sm text-gray-600">Service Preferences</p>
-                            <p className="font-medium">{profileData.preferences}</p>
+                            <Label htmlFor="address">Complete Address *</Label>
+                            <Textarea
+                              id="address"
+                              value={profileData.address}
+                              onChange={(e) => setProfileData({...profileData, address: e.target.value})}
+                              rows={3}
+                              placeholder="Enter your complete address"
+                            />
+                          </div>
+
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                              <Label htmlFor="emergencyContactName">Emergency Contact Name</Label>
+                              <Input
+                                id="emergencyContactName"
+                                value={profileData.emergencyContactName}
+                                onChange={(e) => setProfileData({...profileData, emergencyContactName: e.target.value})}
+                                placeholder="Emergency contact name"
+                              />
+                            </div>
+                            <div>
+                              <Label htmlFor="emergencyContact">Emergency Contact Number</Label>
+                              <Input
+                                id="emergencyContact"
+                                value={profileData.emergencyContact}
+                                onChange={(e) => setProfileData({...profileData, emergencyContact: e.target.value})}
+                                placeholder="Emergency contact number"
+                              />
+                            </div>
+                          </div>
+                          
+                          <div>
+                            <Label htmlFor="preferences">Service Preferences</Label>
+                            <Textarea
+                              id="preferences"
+                              value={profileData.preferences}
+                              onChange={(e) => setProfileData({...profileData, preferences: e.target.value})}
+                              rows={3}
+                              placeholder="Any specific preferences for services"
+                            />
+                          </div>
+                          
+                          <Button onClick={handleProfileUpdate} className="w-full">
+                            <Save className="w-4 h-4 mr-2" />
+                            Save Changes
+                          </Button>
+                        </div>
+                      ) : (
+                        <div className="space-y-6">
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div className="space-y-4">
+                              <div className="flex items-center space-x-3">
+                                <Mail className="w-5 h-5 text-gray-500" />
+                                <div>
+                                  <p className="text-sm text-gray-600">Email</p>
+                                  <p className="font-medium">{profileData.email}</p>
+                                </div>
+                              </div>
+                              <div className="flex items-center space-x-3">
+                                <Phone className="w-5 h-5 text-gray-500" />
+                                <div>
+                                  <p className="text-sm text-gray-600">Phone</p>
+                                  <p className="font-medium">{profileData.phone}</p>
+                                </div>
+                              </div>
+                              <div className="flex items-center space-x-3">
+                                <MapPin className="w-5 h-5 text-gray-500" />
+                                <div>
+                                  <p className="text-sm text-gray-600">City</p>
+                                  <p className="font-medium">{profileData.city} - {profileData.pincode}</p>
+                                </div>
+                              </div>
+                            </div>
+                            <div className="space-y-4">
+                              <div className="flex items-start space-x-3">
+                                <Home className="w-5 h-5 text-gray-500 mt-1" />
+                                <div>
+                                  <p className="text-sm text-gray-600">Address</p>
+                                  <p className="font-medium">{profileData.address}</p>
+                                </div>
+                              </div>
+                              <div className="flex items-center space-x-3">
+                                <User className="w-5 h-5 text-gray-500" />
+                                <div>
+                                  <p className="text-sm text-gray-600">Emergency Contact</p>
+                                  <p className="font-medium">{profileData.emergencyContactName} - {profileData.emergencyContact}</p>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          
+                          <div className="pt-4 border-t">
+                            <div className="flex items-start space-x-3">
+                              <Settings className="w-5 h-5 text-gray-500 mt-1" />
+                              <div>
+                                <p className="text-sm text-gray-600">Service Preferences</p>
+                                <p className="font-medium">{profileData.preferences}</p>
+                              </div>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    </div>
-                  )}
-                </CardContent>
-              </Card>
+                      )}
+                    </CardContent>
+                  </Card>
+                </div>
+              </div>
+
+              {/* Additional Profile Actions */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <Card>
+                  <CardContent className="p-6 text-center">
+                    <Download className="h-12 w-12 text-primary-600 mx-auto mb-4" />
+                    <h3 className="font-semibold mb-2">Download Data</h3>
+                    <p className="text-sm text-gray-600 mb-4">Export your account data</p>
+                    <Button variant="outline" size="sm">
+                      <Download className="w-4 h-4 mr-2" />
+                      Export Data
+                    </Button>
+                  </CardContent>
+                </Card>
+                
+                <Card>
+                  <CardContent className="p-6 text-center">
+                    <Shield className="h-12 w-12 text-primary-600 mx-auto mb-4" />
+                    <h3 className="font-semibold mb-2">Privacy Settings</h3>
+                    <p className="text-sm text-gray-600 mb-4">Manage your privacy preferences</p>
+                    <Button variant="outline" size="sm">
+                      <Settings className="w-4 h-4 mr-2" />
+                      Privacy
+                    </Button>
+                  </CardContent>
+                </Card>
+                
+                <Card>
+                  <CardContent className="p-6 text-center">
+                    <Bell className="h-12 w-12 text-primary-600 mx-auto mb-4" />
+                    <h3 className="font-semibold mb-2">Notifications</h3>
+                    <p className="text-sm text-gray-600 mb-4">Configure notification settings</p>
+                    <Button variant="outline" size="sm">
+                      <Bell className="w-4 h-4 mr-2" />
+                      Configure
+                    </Button>
+                  </CardContent>
+                </Card>
+              </div>
             </TabsContent>
 
             <TabsContent value="settings" className="space-y-6">
