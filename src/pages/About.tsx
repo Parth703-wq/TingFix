@@ -75,8 +75,8 @@ const About = () => {
             </h1>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
               We're on a mission to make professional home services accessible, reliable, and 
-              affordable for everyone. Founded in 2020, Ting Fix has revolutionized how people 
-              connect with trusted service professionals.
+              affordable for everyone. Ting Fix has revolutionized how people 
+              connect with trusted service professionals across India.
             </p>
           </div>
 
@@ -93,7 +93,7 @@ const About = () => {
                 </p>
                 <p>
                   Today, we've created a platform that connects over 50,000 customers with 
-                  1,000+ verified professionals across 20+ cities in India. Every professional 
+                  verified professionals across multiple cities in India. Every professional 
                   on our platform is background-checked, trained, and committed to delivering 
                   exceptional service.
                 </p>
@@ -165,11 +165,11 @@ const About = () => {
                 <div className="text-gray-600">Happy Customers</div>
               </div>
               <div>
-                <div className="text-3xl font-bold text-primary-600 mb-2">1,000+</div>
+                <div className="text-3xl font-bold text-primary-600 mb-2">2,500+</div>
                 <div className="text-gray-600">Verified Professionals</div>
               </div>
               <div>
-                <div className="text-3xl font-bold text-primary-600 mb-2">20+</div>
+                <div className="text-3xl font-bold text-primary-600 mb-2">25+</div>
                 <div className="text-gray-600">Cities Served</div>
               </div>
               <div>

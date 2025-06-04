@@ -33,6 +33,38 @@ export const professionals = [
     verified: true,
     skills: ["Regular Cleaning", "Move-in Cleaning", "Post-party Cleanup", "Window Cleaning"]
   },
+  {
+    id: 11,
+    name: "Sunita Devi",
+    profession: "Office Cleaning Specialist",
+    category: "cleaning",
+    description: "Commercial cleaning expert with focus on office spaces and corporate environments",
+    rating: 4.7,
+    reviews: 156,
+    location: "Powai, Mumbai",
+    experience: "6+ years",
+    price: "₹1200/visit",
+    phone: "+91 98765 43220",
+    email: "sunita.cleaning@tingfix.com",
+    verified: true,
+    skills: ["Office Cleaning", "Floor Polishing", "Workspace Sanitization", "Equipment Cleaning"]
+  },
+  {
+    id: 12,
+    name: "Rahul Patil",
+    profession: "Sofa & Carpet Cleaner",
+    category: "cleaning",
+    description: "Specialized in upholstery and carpet deep cleaning using advanced techniques",
+    rating: 4.6,
+    reviews: 98,
+    location: "Malad West, Mumbai",
+    experience: "4+ years",
+    price: "₹500/item",
+    phone: "+91 98765 43221",
+    email: "rahul.cleaning@tingfix.com",
+    verified: true,
+    skills: ["Sofa Cleaning", "Carpet Shampooing", "Stain Removal", "Fabric Protection"]
+  },
   
   // AC REPAIR PROFESSIONALS
   {
@@ -66,6 +98,38 @@ export const professionals = [
     email: "suresh.ac@tingfix.com",
     verified: true,
     skills: ["AC Service", "Coil Cleaning", "Filter Replacement", "Thermostat Repair"]
+  },
+  {
+    id: 13,
+    name: "Kiran Singh",
+    profession: "Central AC Specialist",
+    category: "appliances",
+    description: "Expert in central air conditioning systems and commercial HVAC solutions",
+    rating: 4.9,
+    reviews: 203,
+    location: "Thane West, Mumbai",
+    experience: "12+ years",
+    price: "₹800/visit",
+    phone: "+91 98765 43222",
+    email: "kiran.ac@tingfix.com",
+    verified: true,
+    skills: ["Central AC", "HVAC Systems", "Ductwork", "Commercial AC"]
+  },
+  {
+    id: 14,
+    name: "Mohan Kumar",
+    profession: "AC Installation Expert",
+    category: "appliances",
+    description: "Professional AC installation with proper electrical setup and warranty",
+    rating: 4.8,
+    reviews: 134,
+    location: "Borivali East, Mumbai",
+    experience: "7+ years",
+    price: "₹1500/installation",
+    phone: "+91 98765 43223",
+    email: "mohan.ac@tingfix.com",
+    verified: true,
+    skills: ["New AC Installation", "Electrical Setup", "Pipe Installation", "Testing"]
   },
 
   // ELECTRICAL PROFESSIONALS
@@ -101,6 +165,38 @@ export const professionals = [
     verified: true,
     skills: ["Emergency Repairs", "Fan Installation", "Socket Repair", "Voltage Stabilizer"]
   },
+  {
+    id: 15,
+    name: "Ashok Mehta",
+    profession: "Home Automation Expert",
+    category: "electrical",
+    description: "Smart home solutions and automation systems installation specialist",
+    rating: 4.9,
+    reviews: 87,
+    location: "Juhu, Mumbai",
+    experience: "5+ years",
+    price: "₹1000/visit",
+    phone: "+91 98765 43224",
+    email: "ashok.electrical@tingfix.com",
+    verified: true,
+    skills: ["Smart Switches", "Home Automation", "Security Systems", "IoT Devices"]
+  },
+  {
+    id: 16,
+    name: "Deepak Sharma",
+    profession: "Industrial Electrician",
+    category: "electrical",
+    description: "Commercial and industrial electrical systems expert with safety certification",
+    rating: 4.7,
+    reviews: 156,
+    location: "Kandivali West, Mumbai",
+    experience: "9+ years",
+    price: "₹600/visit",
+    phone: "+91 98765 43225",
+    email: "deepak.electrical@tingfix.com",
+    verified: true,
+    skills: ["Industrial Wiring", "Motor Repair", "Control Panels", "Safety Systems"]
+  },
 
   // PLUMBING PROFESSIONALS
   {
@@ -135,6 +231,38 @@ export const professionals = [
     verified: true,
     skills: ["Leak Detection", "Drain Cleaning", "Bathroom Fitting", "Kitchen Plumbing"]
   },
+  {
+    id: 17,
+    name: "Satish Rane",
+    profession: "Water System Expert",
+    category: "plumbing",
+    description: "Specialized in water supply systems, pumps, and pressure management",
+    rating: 4.8,
+    reviews: 145,
+    location: "Versova, Mumbai",
+    experience: "8+ years",
+    price: "₹550/visit",
+    phone: "+91 98765 43226",
+    email: "satish.plumbing@tingfix.com",
+    verified: true,
+    skills: ["Water Pumps", "Pressure Systems", "Tank Installation", "Water Filtration"]
+  },
+  {
+    id: 18,
+    name: "Ganesh Pawar",
+    profession: "Bathroom Renovation Expert",
+    category: "plumbing",
+    description: "Complete bathroom renovation and modern fixture installation specialist",
+    rating: 4.7,
+    reviews: 89,
+    location: "Lokhandwala, Mumbai",
+    experience: "10+ years",
+    price: "₹800/visit",
+    phone: "+91 98765 43227",
+    email: "ganesh.plumbing@tingfix.com",
+    verified: true,
+    skills: ["Bathroom Renovation", "Modern Fixtures", "Tile Work", "Waterproofing"]
+  },
 
   // BEAUTY AND WELLNESS PROFESSIONALS
   {
@@ -168,5 +296,37 @@ export const professionals = [
     email: "kavita.beauty@tingfix.com",
     verified: true,
     skills: ["Aromatherapy", "Body Massage", "Skin Care", "Hair Treatment"]
+  },
+  {
+    id: 19,
+    name: "Priyanka Shah",
+    profession: "Bridal Makeup Artist",
+    category: "beauty",
+    description: "Professional bridal makeup and styling with premium products",
+    rating: 4.9,
+    reviews: 234,
+    location: "Andheri West, Mumbai",
+    experience: "7+ years",
+    price: "₹3000/session",
+    phone: "+91 98765 43228",
+    email: "priyanka.beauty@tingfix.com",
+    verified: true,
+    skills: ["Bridal Makeup", "Hair Styling", "Pre-wedding Care", "Party Makeup"]
+  },
+  {
+    id: 20,
+    name: "Ritika Jain",
+    profession: "Spa Therapist",
+    category: "beauty",
+    description: "Professional spa treatments and therapeutic massages at home",
+    rating: 4.8,
+    reviews: 167,
+    location: "Bandra East, Mumbai",
+    experience: "6+ years",
+    price: "₹1500/session",
+    phone: "+91 98765 43229",
+    email: "ritika.beauty@tingfix.com",
+    verified: true,
+    skills: ["Deep Tissue Massage", "Swedish Massage", "Body Scrubs", "Reflexology"]
   }
 ];

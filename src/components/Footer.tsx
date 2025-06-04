@@ -4,6 +4,12 @@ import { Link } from 'react-router-dom';
 import { Wrench, Phone, Mail, MapPin } from 'lucide-react';
 
 const Footer = () => {
+  const handleLinkClick = () => {
+    setTimeout(() => {
+      window.scrollTo(0, 0);
+    }, 100);
+  };
+
   return (
     <footer className="bg-gradient-to-r from-gray-900 via-purple-900 to-gray-900 text-white">
       <div className="container mx-auto px-4 py-16">
@@ -38,7 +44,7 @@ const Footer = () => {
                 <div className="w-8 h-8 bg-gradient-to-r from-primary-500 to-secondary-500 rounded-lg flex items-center justify-center">
                   <MapPin className="w-4 h-4 text-white" />
                 </div>
-                <span className="text-gray-300">Available in 20+ cities across India</span>
+                <span className="text-gray-300">Available in 25+ cities across India</span>
               </div>
             </div>
           </div>
@@ -46,22 +52,22 @@ const Footer = () => {
           <div>
             <h3 className="font-bold mb-6 text-lg text-purple-300">Company</h3>
             <ul className="space-y-3">
-              <li><Link to="/about" className="text-gray-400 hover:text-purple-300 transition-colors">About Us</Link></li>
-              <li><Link to="/careers" className="text-gray-400 hover:text-purple-300 transition-colors">Careers</Link></li>
-              <li><Link to="/blog" className="text-gray-400 hover:text-purple-300 transition-colors">Blog</Link></li>
-              <li><Link to="/press" className="text-gray-400 hover:text-purple-300 transition-colors">Press</Link></li>
-              <li><Link to="/partners" className="text-gray-400 hover:text-purple-300 transition-colors">Partner with Us</Link></li>
+              <li><Link to="/about" onClick={handleLinkClick} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-purple-300 transition-colors">About Us</Link></li>
+              <li><Link to="/careers" onClick={handleLinkClick} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-purple-300 transition-colors">Careers</Link></li>
+              <li><a href="#" className="text-gray-400 hover:text-purple-300 transition-colors">Blog</a></li>
+              <li><a href="#" className="text-gray-400 hover:text-purple-300 transition-colors">Press</a></li>
+              <li><a href="#" className="text-gray-400 hover:text-purple-300 transition-colors">Partner with Us</a></li>
             </ul>
           </div>
 
           <div>
             <h3 className="font-bold mb-6 text-lg text-teal-300">Support</h3>
             <ul className="space-y-3">
-              <li><Link to="/help" className="text-gray-400 hover:text-teal-300 transition-colors">Help Center</Link></li>
-              <li><Link to="/safety" className="text-gray-400 hover:text-teal-300 transition-colors">Safety Guidelines</Link></li>
-              <li><Link to="/terms" className="text-gray-400 hover:text-teal-300 transition-colors">Terms of Service</Link></li>
-              <li><Link to="/privacy" className="text-gray-400 hover:text-teal-300 transition-colors">Privacy Policy</Link></li>
-              <li><Link to="/contact" className="text-gray-400 hover:text-teal-300 transition-colors">Contact Us</Link></li>
+              <li><Link to="/help" onClick={handleLinkClick} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-teal-300 transition-colors">Help Center</Link></li>
+              <li><a href="#" className="text-gray-400 hover:text-teal-300 transition-colors">Safety Guidelines</a></li>
+              <li><Link to="/terms" onClick={handleLinkClick} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-teal-300 transition-colors">Terms of Service</Link></li>
+              <li><Link to="/privacy" onClick={handleLinkClick} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-teal-300 transition-colors">Privacy Policy</Link></li>
+              <li><Link to="/contact" onClick={handleLinkClick} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-teal-300 transition-colors">Contact Us</Link></li>
             </ul>
           </div>
         </div>
